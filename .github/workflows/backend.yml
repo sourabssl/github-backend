@@ -1,5 +1,5 @@
 name: remote ssh command
-on: [push]
+on: [main]
 jobs:
   build:
     name: Build
@@ -11,7 +11,7 @@ jobs:
         host: ${{ secrets.IP }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.KEY }}
-        # port: ${{ secrets.PORT }}
+        port: ${{ secrets.PORT }}
         script: whoami
         timeout: 60s
         command_timeout: 15m
