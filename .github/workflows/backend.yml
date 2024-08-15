@@ -1,17 +1,24 @@
-name: remote ssh command
-on: [main]
+name: Node.js CD
+
+on:
+  push:
+    branches: [ main ]
+
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
+
     steps:
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v1.0.3
+    - name: Deploy using ssh
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.IP }}
         username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.KEY }}
-        port: ${{ secrets.PORT }}
-        script: whoami
-        timeout: 60s
-        command_timeout: 15m
+        key: ${{ secrets.PRIVATE_KEY }}
+        port: 22
+        script: |
+          cd ~/Documents/backend
+          git pull origin main
+          npm install --only=prod
+          pm2 delete all
+          pm2 start npm --name "backend" -- start
