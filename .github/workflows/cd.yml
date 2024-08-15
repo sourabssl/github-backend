@@ -24,7 +24,6 @@ jobs:
       run: npm run build
 
     - name: Configure SSH
-      secrets: inherit
       env:
         SSH_PRIVATE_KEY: ${{ secrets.VPS_PRIVATE_KEY }}
         SSH_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
