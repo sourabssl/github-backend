@@ -33,7 +33,7 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
 
-        rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./ sourab@192.168.31.71:/var/www/myapp
+        rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./ sourab@192.168.31.71:~/Documents/
 
     - name: SSH into VPS and restart server
       env:
