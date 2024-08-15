@@ -7,6 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    secrets: inherit
 
     steps:
     - name: Checkout repository
@@ -30,9 +31,9 @@ jobs:
       run: |
         mkdir -p ~/.ssh
         echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+        chmod 777 ~/.ssh/id_rsa
         echo "${SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
-        chmod 644 ~/.ssh/known_hosts
+        chmod 777 ~/.ssh/known_hosts
 
     - name: Debug SSH Private Key
       run: |
