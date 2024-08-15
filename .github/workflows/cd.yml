@@ -34,6 +34,14 @@ jobs:
         echo "${SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
         chmod 644 ~/.ssh/known_hosts
 
+    - name: Debug SSH Private Key
+      run: |
+        echo "${SSH_PRIVATE_KEY}"
+
+    - name: Debug VPS Known Hosts
+      run: |
+        echo "${VPS_KNOWN_HOSTS}"
+
     - name: Copy files to VPS
       run: |
         rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./ sourab@192.168.31.71:~/Documents/backend
