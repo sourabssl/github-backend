@@ -1,4 +1,4 @@
-name: Backend
+name: Deploy to VPS
 
 on:
   push:
@@ -9,24 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - name: Install dependencies
         run: npm install
-
       - name: Build the app
         run: npm run build
-
       - name: Deploy to VPS
-        uses: appleboy/ssh-action@main
+        uses: appleboy/ssh-action@v0.3.1
         with:
           host: ${{ secrets.IP }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.VPS_PRIVATE_KEY }}
-          port: 22  # If using a non-standard SSH port
           script: |
-            cd ~/Documents/backend
-            git pull origin main
-            npm install
-            npm run build
-            pm2 delete all
-            pm2 start npm --name "backend" -- start
+            mkdir -p ~/Documents/backend
+            scp -r dist/* sourab@192.168.31.71:/Documents/backend
+            ssh sourab@192.168.31.71 "cd /Documents/backend && npm install && pm2 delete all && pm2 start npm --name "backend" -- start"
