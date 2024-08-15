@@ -17,12 +17,11 @@ jobs:
         run: npm run build
 
       - name: Deploy to VPS
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: 192.168.31.71
           username: sourab
           key: ${{ secrets.VPS_PRIVATE_KEY }}
-          port: 22
           script: |
             cd ~/Documents/backend
             git pull origin main
