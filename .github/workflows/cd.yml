@@ -7,44 +7,25 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    with:
-        environment: 'production'
-    secrets: inherit
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18.x
+      - name: Install dependencies
+        run: npm install
 
-    - name: Install dependencies
-      run: npm install
+      - name: Build the app
+        run: npm run build
 
-    - name: Build application
-      run: npm run build
-
-    - name: Configure SSH
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.VPS_PRIVATE_KEY }}
-        SSH_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
-      run: |
-        mkdir -p ~/.ssh
-        echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        echo "${SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
-        chmod 644 ~/.ssh/known_hosts
-
-    - name: Copy files to VPS
-      run: |
-        rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./ sourab@192.168.31.71:~/Documents/backend
-
-    - name: SSH into VPS and restart server
-      run: |
-        ssh -o StrictHostKeyChecking=no sourab@192.168.31.71 << 'EOF'
-          cd ~/Documents/backend
-          npm install --production
-          pm2 reload all || pm2 start dist/main.js --name "my-nest-app"
-        EOF
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: 192.168.31.71
+          username: sourab
+          key: ${{ secrets.VPS_PRIVATE_KEY }}
+          script: |
+            cd ~/Documents/backend
+            git pull origin main
+            npm install
+            npm run build
+            pm2 delete all
+            pm2 start npm --name "backend" -- start
