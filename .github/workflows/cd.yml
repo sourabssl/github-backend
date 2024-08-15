@@ -27,11 +27,12 @@ jobs:
       env:
         SSH_PRIVATE_KEY: ${{ secrets.VPS_PRIVATE_KEY }}
         SSH_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
-      run: |
-        mkdir -p ~/.ssh
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+      run:
+        # |
+        # mkdir -p ~/.ssh
+        # echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        # chmod 600 ~/.ssh/id_rsa
+        # echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
 
         rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./ sourab@192.168.31.71:~/Documents/backend
 
