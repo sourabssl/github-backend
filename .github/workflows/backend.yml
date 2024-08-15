@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: appleboy/ssh-action@master
+        uses: actions/checkout@main
         with:
           host: ${{ secrets.IP }}
           username: ${{ secrets.USERNAME }}
