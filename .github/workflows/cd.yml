@@ -22,6 +22,7 @@ jobs:
           host: 192.168.31.71
           username: sourab
           key: ${{ secrets.VPS_PRIVATE_KEY }}
+          port: 22
           script: |
             cd ~/Documents/backend
             git pull origin main
