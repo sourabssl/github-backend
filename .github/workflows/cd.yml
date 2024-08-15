@@ -7,7 +7,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: myenvironment
+    with:
+        environment: 'production'
+    secrets: inherit
 
     steps:
     - name: Checkout repository
