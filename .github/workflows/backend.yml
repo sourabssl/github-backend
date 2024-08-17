@@ -7,6 +7,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Test SSH Connection
+      run: |
+        nc -zv ${{ secrets.SSH_HOST }} 22
+
     - name: Deploy using SSH
       run: |
         sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
