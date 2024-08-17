@@ -21,7 +21,6 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         port: ${{ secrets.SSH_PORT }}
         password: ${{ secrets.SSH_PASSWORD }}
-        key: ${{ secrets.SSH_KEY }}
         script: |
           cd ~/Documents/backend
           git pull origin main
