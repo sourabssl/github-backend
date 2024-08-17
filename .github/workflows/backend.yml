@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Node.js CI/CD
 
 on:
   push:
@@ -35,7 +35,6 @@ jobs:
         script: |
           cd ~/Documents/github-backend
           git pull origin main
+          git status
           npm install --only=prod
           npm run build
-          pm2 restart all
-        timeout: 60s
