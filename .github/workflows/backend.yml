@@ -15,9 +15,10 @@ jobs:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_KEY }}
-        port: 22
+        # port: 22
         script: |
           cd ~/Documents/backend
           git pull origin main
           git status
           npm install --only=prod
+      timeout-minutes: 10
